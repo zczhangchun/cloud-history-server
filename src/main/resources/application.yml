@@ -1,0 +1,39 @@
+server:
+  port: 8080
+  tomcat:
+    accesslog:
+      enabled: true
+      buffered: false
+      directory: /tmp/logs/cloud-history-server
+      pattern: '%h %{X-Forwarded-For}i %l %u %t "%r" %b "%{Referer}i" "%{User-Agent}i" %s (%Dms)'
+  compression:
+    enabled: true
+    mime-types: application/json,application/xml,text/html,text/xml,text/plain
+#注册中心的地址 汇报心跳的时间
+eureka:
+  instance:
+    prefer-ip-address: true
+    lease-renewal-interval-in-seconds: 1
+    lease-expiration-duration-in-seconds: 2
+    instance-id: ${spring.cloud.client.ip-address}:${server.port}
+  client:
+    serviceUrl:
+      defaultZone: ${ZONE}
+mybatis:
+  mapper-locations: classpath:mapper/*Dao.xml
+  type-aliases-package: com.zhangchun.history.server.dto
+  configuration:
+    map-underscore-to-camel-case: true
+spring:
+  application:
+    name: cloud-history-server
+#  datasource:
+#    url: jdbc:mysql://localhost:3306/kafka
+#    username: root
+#    password: zc123123
+#  redis:
+#      host: 192.168.203.132
+  cloud:
+    inetutils:
+      preferred-networks: 10.
+#  type-handlers-package: com.zhangchun.history.server.typehandlers
